@@ -15,7 +15,7 @@ variable "env" {
   nullable    = false
 
   validation {
-    condition     = contains(["dev", "test", "stage", "prod"], var.environment)
-    error_message = "environment must be one of: dev, test, stage, prod."
+    condition     = contains(["dev", "test", "stage", "prod"], var.env)
+    error_message = "env must be one of: dev, test, stage, prod."
   }
 }

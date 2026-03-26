@@ -3,7 +3,7 @@ variable "topology" {
   type        = string
 }
 
-variable "environment" {
+variable "env" {
   description = "(Required) Workspace-provided environment for the example."
   type        = string
 }
