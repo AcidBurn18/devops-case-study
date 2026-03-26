@@ -56,51 +56,49 @@ variable "address_space" {
   }
 }
 
-variable "tags" {
-  description = "(Optional) Tags applied to the virtual network."
+variable "common_tags" {
+  description = "(Required) Common tags merged into the final virtual network tags."
+  type        = map(string)
+  nullable    = false
+}
+
+variable "custom_tags" {
+  description = "(Optional) Custom tags merged on top of the common tags."
   type        = map(string)
   default     = {}
   nullable    = false
 }
 
 variable "remote_virtual_network_id" {
-  description = "(Optional) Remote virtual network ID used to create peering."
+  description = "(Required) Remote virtual network ID used to create peering."
   type        = string
-  default     = null
+  nullable    = false
 
   validation {
-    condition = (
-      var.remote_virtual_network_id == null &&
-      var.remote_virtual_network_name == null &&
-      var.remote_resource_group_name == null
-    ) || (
-      var.remote_virtual_network_id != null &&
-      var.remote_virtual_network_name != null &&
-      var.remote_resource_group_name != null
-    )
-    error_message = "remote_virtual_network_id, remote_virtual_network_name, and remote_resource_group_name must all be set together."
+    condition     = length(trim(var.remote_virtual_network_id)) > 0
+    error_message = "remote_virtual_network_id must not be empty."
   }
 }
 
 variable "remote_virtual_network_name" {
-  description = "(Optional) Remote virtual network name used for reverse peering."
+  description = "(Required) Remote virtual network name used for reverse peering."
   type        = string
-  default     = null
+  nullable    = false
 
   validation {
-    condition     = var.remote_virtual_network_name == null || length(trim(var.remote_virtual_network_name)) > 0
-    error_message = "remote_virtual_network_name must not be an empty string."
+    condition     = length(trim(var.remote_virtual_network_name)) > 0
+    error_message = "remote_virtual_network_name must not be empty."
   }
 }
 
 variable "remote_resource_group_name" {
-  description = "(Optional) Remote resource group name used for reverse peering."
+  description = "(Required) Remote resource group name used for reverse peering."
   type        = string
-  default     = null
+  nullable    = false
 
   validation {
-    condition     = var.remote_resource_group_name == null || length(trim(var.remote_resource_group_name)) > 0
-    error_message = "remote_resource_group_name must not be an empty string."
+    condition     = length(trim(var.remote_resource_group_name)) > 0
+    error_message = "remote_resource_group_name must not be empty."
   }
 }
 
@@ -114,7 +112,7 @@ variable "allow_virtual_network_access" {
 variable "allow_forwarded_traffic" {
   description = "(Optional) Whether forwarded traffic is allowed through the peering."
   type        = bool
-  default     = false
+  default     = true
   nullable    = false
 }
 
@@ -129,5 +127,18 @@ variable "use_remote_gateways" {
   description = "(Optional) Whether the local virtual network uses remote gateways."
   type        = bool
   default     = false
+  nullable    = false
+}
+
+variable "ddos_protection_plan_id" {
+  description = "(Optional) DDoS protection plan ID associated with the virtual network."
+  type        = string
+  default     = null
+}
+
+variable "enable_ddos_protection" {
+  description = "(Optional) Whether DDoS protection is enabled when a plan ID is supplied."
+  type        = bool
+  default     = true
   nullable    = false
 }

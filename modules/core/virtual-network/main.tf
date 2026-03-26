@@ -3,12 +3,19 @@ resource "azurerm_virtual_network" "this" {
   location            = var.location
   resource_group_name = var.resource_group_name
   address_space       = var.address_space
-  tags                = var.tags
+  tags                = module.tag_outputs.tags
+
+  dynamic "ddos_protection_plan" {
+    for_each = var.ddos_protection_plan_id == null ? [] : [var.ddos_protection_plan_id]
+
+    content {
+      id     = ddos_protection_plan.value
+      enable = var.enable_ddos_protection
+    }
+  }
 }
 
 resource "azurerm_virtual_network_peering" "local_to_remote" {
-  count = local.create_peering ? 1 : 0
-
   name                      = format("%s-peer-%s-%s-%s-%s-local", var.name_prefix, var.topology, var.environment, local.location_short, var.suffix)
   resource_group_name       = var.resource_group_name
   virtual_network_name      = azurerm_virtual_network.this.name
@@ -21,8 +28,6 @@ resource "azurerm_virtual_network_peering" "local_to_remote" {
 }
 
 resource "azurerm_virtual_network_peering" "remote_to_local" {
-  count = local.create_peering ? 1 : 0
-
   name                      = format("%s-peer-%s-%s-%s-%s-remote", var.name_prefix, var.topology, var.environment, local.location_short, var.suffix)
   resource_group_name       = var.remote_resource_group_name
   virtual_network_name      = var.remote_virtual_network_name
