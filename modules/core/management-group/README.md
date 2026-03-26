@@ -1,18 +1,55 @@
+<!-- BEGIN_TF_DOCS -->
 # Management Group Module
 
-This module is intentionally documentation-first right now.
+Documents the management group pattern used in this repository.
 
-It exists to represent one of the core building blocks from the original platform experience without publishing a tenant-specific implementation.
+This module is intended for Terraform Enterprise style usage where workspace variables provide `topology` and `env`.
 
-## Intended Responsibility
+## Requirements
 
-- create or manage management group hierarchy
-- support policy and governance scoping
-- provide a reusable abstraction for platform hierarchy design
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.0 |
 
-## Why No Sample Code Yet
+## Providers
 
-Management group implementations are one of the easiest places to leak organization-specific structure. This repository keeps the public-safe boundary by documenting the pattern first and code only where it can be shared cleanly.
+No providers.
 
-<!-- BEGIN_TF_DOCS -->
+# Examples
+
+```hcl
+# Example variables for the management group module.
+variable "topology" {
+  description = "(Required) Workspace-provided topology category for the example."
+  type        = string
+}
+
+variable "environment" {
+  description = "(Required) Workspace-provided environment for the example."
+  type        = string
+}
+module "management_group" {
+  source  = "app.terraform.io/example-org/management-group/azurerm"
+  version = "x.x.x"
+
+  topology    = var.topology
+  environment = var.environment
+}
+```
+
+## Resources
+
+No resources.
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_environment"></a> [environment](#input\_environment) | (Required) Workspace-provided environment for the module context. | `string` | n/a | yes |
+| <a name="input_topology"></a> [topology](#input\_topology) | (Required) Workspace-provided topology category for the module context. | `string` | n/a | yes |
+
+## Outputs
+
+No outputs.
 <!-- END_TF_DOCS -->

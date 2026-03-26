@@ -1,18 +1,55 @@
+<!-- BEGIN_TF_DOCS -->
 # Subscription Module
 
-This module is intentionally documentation-first right now.
+Documents the subscription pattern used in this repository.
 
-It represents the subscription provisioning and organization concerns that were part of the original Landing Zone experience.
+This module is intended for Terraform Enterprise style usage where workspace variables provide `topology` and `env`.
 
-## Intended Responsibility
+## Requirements
 
-- define subscription-level platform onboarding patterns
-- support environment and topology separation
-- align subscription creation with governance, RBAC, and policy needs
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.0 |
 
-## Public-Safe Note
+## Providers
 
-The exact mechanics and workflows for subscription creation can be tightly coupled to enterprise processes, billing models, and tenant structure. That is why this public repository documents the concept without exposing organization-specific implementation details.
+No providers.
 
-<!-- BEGIN_TF_DOCS -->
+# Examples
+
+```hcl
+# Example variables for the subscription module.
+variable "topology" {
+  description = "(Required) Workspace-provided topology category for the example."
+  type        = string
+}
+
+variable "environment" {
+  description = "(Required) Workspace-provided environment for the example."
+  type        = string
+}
+module "subscription" {
+  source  = "app.terraform.io/example-org/subscription/azurerm"
+  version = "x.x.x"
+
+  topology    = var.topology
+  environment = var.environment
+}
+```
+
+## Resources
+
+No resources.
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_environment"></a> [environment](#input\_environment) | (Required) Workspace-provided environment for the module context. | `string` | n/a | yes |
+| <a name="input_topology"></a> [topology](#input\_topology) | (Required) Workspace-provided topology category for the module context. | `string` | n/a | yes |
+
+## Outputs
+
+No outputs.
 <!-- END_TF_DOCS -->

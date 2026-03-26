@@ -1,18 +1,55 @@
+<!-- BEGIN_TF_DOCS -->
 # Hub Peering Module
 
-This module is currently documented as a pattern placeholder.
+Documents the hub peering pattern used in this repository.
 
-It represents the hub connectivity and peering concepts that were part of the original platform design experience.
+This module is intended for Terraform Enterprise style usage where workspace variables provide `topology` and `env`.
 
-## Intended Responsibility
+## Requirements
 
-- establish controlled connectivity between hub and spoke style networks
-- support topology-specific routing patterns
-- provide repeatable network foundation for onboarded applications
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.0 |
 
-## Future Direction
+## Providers
 
-A public-safe sample implementation can be added later using sanitized naming and a minimal topology example.
+No providers.
 
-<!-- BEGIN_TF_DOCS -->
+# Examples
+
+```hcl
+# Example variables for the hub peering module.
+variable "topology" {
+  description = "(Required) Workspace-provided topology category for the example."
+  type        = string
+}
+
+variable "environment" {
+  description = "(Required) Workspace-provided environment for the example."
+  type        = string
+}
+module "hub_peering" {
+  source  = "app.terraform.io/example-org/hub-peering/azurerm"
+  version = "x.x.x"
+
+  topology    = var.topology
+  environment = var.environment
+}
+```
+
+## Resources
+
+No resources.
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_environment"></a> [environment](#input\_environment) | (Required) Workspace-provided environment for the module context. | `string` | n/a | yes |
+| <a name="input_topology"></a> [topology](#input\_topology) | (Required) Workspace-provided topology category for the module context. | `string` | n/a | yes |
+
+## Outputs
+
+No outputs.
 <!-- END_TF_DOCS -->
