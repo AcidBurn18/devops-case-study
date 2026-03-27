@@ -47,7 +47,7 @@ import sys
 content = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
 
 version_header = re.compile(r"^## \[\d+\.\d+\.\d+\]- \d{2}/\d{2}/\d{4}$", re.MULTILINE)
-required_sections = ["##Added", "##Changed", "##Fixed"]
+required_sections = ["## Added", "## Changed", "## Fixed"]
 
 if not version_header.search(content):
     print("CHANGELOG.md must include a version header like: ## [x.x.x]- MM/DD/YYYY")
