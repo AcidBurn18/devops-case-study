@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check changelog was updated
+      - name: Validate changelog format when changed
         shell: bash
         run: |
           set -euo pipefail
@@ -34,13 +34,34 @@ jobs:
 
           echo "Checking diff range: ${RANGE}"
 
-          if git diff --name-only "${RANGE}" | grep -qx 'CHANGELOG.md'; then
-            echo "CHANGELOG.md was updated."
+          if ! git diff --name-only "${RANGE}" | grep -qx 'CHANGELOG.md'; then
+            echo "CHANGELOG.md was not changed; skipping format validation."
             exit 0
           fi
 
-          echo "CHANGELOG.md must be updated for every change."
-          exit 1
+          python3 - <<'PY'
+import pathlib
+import re
+import sys
+
+content = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+
+version_header = re.compile(r"^## \[\d+\.\d+\.\d+\]- \d{2}/\d{2}/\d{4}$", re.MULTILINE)
+required_sections = ["##Added", "##Changed", "##Fixed"]
+
+if not version_header.search(content):
+    print("CHANGELOG.md must include a version header like: ## [x.x.x]- MM/DD/YYYY")
+    sys.exit(1)
+
+missing_sections = [section for section in required_sections if section not in content]
+if missing_sections:
+    print("CHANGELOG.md is missing required sections:")
+    for section in missing_sections:
+        print(f"  - {section}")
+    sys.exit(1)
+
+print("CHANGELOG.md format is valid.")
+PY
 
   required-files:
     runs-on: ubuntu-latest
