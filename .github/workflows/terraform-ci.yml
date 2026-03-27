@@ -39,29 +39,27 @@ jobs:
             exit 0
           fi
 
-          python3 - <<'PY'
-import pathlib
-import re
-import sys
+          grep -Eq '^## \[[0-9]+\.[0-9]+\.[0-9]+\]- [0-9]{2}/[0-9]{2}/[0-9]{4}$' CHANGELOG.md || {
+            echo "CHANGELOG.md must include a version header like: ## [x.x.x]- MM/DD/YYYY"
+            exit 1
+          }
 
-content = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+          grep -q '^## Added$' CHANGELOG.md || {
+            echo "CHANGELOG.md must include: ## Added"
+            exit 1
+          }
 
-version_header = re.compile(r"^## \[\d+\.\d+\.\d+\]- \d{2}/\d{2}/\d{4}$", re.MULTILINE)
-required_sections = ["## Added", "## Changed", "## Fixed"]
+          grep -q '^## Changed$' CHANGELOG.md || {
+            echo "CHANGELOG.md must include: ## Changed"
+            exit 1
+          }
 
-if not version_header.search(content):
-    print("CHANGELOG.md must include a version header like: ## [x.x.x]- MM/DD/YYYY")
-    sys.exit(1)
+          grep -q '^## Fixed$' CHANGELOG.md || {
+            echo "CHANGELOG.md must include: ## Fixed"
+            exit 1
+          }
 
-missing_sections = [section for section in required_sections if section not in content]
-if missing_sections:
-    print("CHANGELOG.md is missing required sections:")
-    for section in missing_sections:
-        print(f"  - {section}")
-    sys.exit(1)
-
-print("CHANGELOG.md format is valid.")
-PY
+          echo "CHANGELOG.md format is valid."
 
   required-files:
     runs-on: ubuntu-latest
