@@ -1,9 +1,3 @@
 locals {
-  location_short_map = {
-    southcentralus = "scu"
-    northcentralus = "ncu"
-  }
-
-  location_short = local.location_short_map[var.location]
-  resource_name  = format("%s-nsgrule-%s-%s-%s-%s", var.name_prefix, var.topology, var.environment, local.location_short, var.suffix)
+  merged_nsg_rule_map = merge(var.common_nsg_rules, var.custom_nsg_rules)
 }

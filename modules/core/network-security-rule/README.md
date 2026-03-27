@@ -3,10 +3,6 @@
 
 Creates a single Azure network security rule using the standard naming convention:
 
-`ser-nsgrule-<topology>-<env>-<location>-<suffix>`
-
-This module is intended for Terraform Enterprise style usage where workspace variables provide `topology` and `env`.
-
 ## Requirements
 
 | Name | Version |
@@ -65,26 +61,12 @@ module "network_security_rule" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_access"></a> [access](#input\_access) | (Required) Access action for the rule. | `string` | n/a | yes |
-| <a name="input_destination_address_prefix"></a> [destination\_address\_prefix](#input\_destination\_address\_prefix) | (Required) Destination address prefix for the rule. | `string` | n/a | yes |
-| <a name="input_destination_port_range"></a> [destination\_port\_range](#input\_destination\_port\_range) | (Required) Destination port range for the rule. | `string` | n/a | yes |
-| <a name="input_direction"></a> [direction](#input\_direction) | (Required) Traffic direction for the rule. | `string` | n/a | yes |
-| <a name="input_environment"></a> [environment](#input\_environment) | (Required) Workspace-provided environment for the resource. | `string` | n/a | yes |
-| <a name="input_network_security_group_name"></a> [network\_security\_group\_name](#input\_network\_security\_group\_name) | (Required) Target NSG name for the rule. | `string` | n/a | yes |
-| <a name="input_priority"></a> [priority](#input\_priority) | (Required) Priority of the NSG rule. | `number` | n/a | yes |
-| <a name="input_protocol"></a> [protocol](#input\_protocol) | (Required) Protocol for the rule. | `string` | n/a | yes |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | (Required) Resource group name containing the target NSG. | `string` | n/a | yes |
-| <a name="input_source_address_prefix"></a> [source\_address\_prefix](#input\_source\_address\_prefix) | (Required) Source address prefix for the rule. | `string` | n/a | yes |
-| <a name="input_source_port_range"></a> [source\_port\_range](#input\_source\_port\_range) | (Required) Source port range for the rule. | `string` | n/a | yes |
-| <a name="input_topology"></a> [topology](#input\_topology) | (Required) Workspace-provided topology category for the resource. | `string` | n/a | yes |
+| <a name="input_common_nsg_rules"></a> [common\_nsg\_rules](#input\_common\_nsg\_rules) | (Required) List of common NSG rules. | <pre>map(object({<br/>    priority                    = number<br/>    direction                   = string<br/>    access                      = string<br/>    protocol                    = string<br/>    source_port_range           = string<br/>    source_port_ranges          = list(string)<br/>    destination_port_range      = string<br/>    destination_port_ranges     = list(string)<br/>    source_address_prefix       = string<br/>    source_address_prefixes     = list(string)<br/>    destination_address_prefix  = string<br/>    destination_address_prefixes = list(string)<br/>  }))</pre> | `{}` | no |
+| <a name="input_custom_nsg_rules"></a> [custom\_nsg\_rules](#input\_custom\_nsg\_rules) | (Optional) List of custom NSG rules. | <pre>map(object({<br/>    priority                    = number<br/>    direction                   = string<br/>    access                      = string<br/>    protocol                    = string<br/>    source_port_range           = string<br/>    source_port_ranges          = list(string)<br/>    destination_port_range      = string<br/>    destination_port_ranges     = list(string)<br/>    source_address_prefix       = string<br/>    source_address_prefixes     = list(string)<br/>    destination_address_prefix  = string<br/>    destination_address_prefixes = list(string)<br/>  }))</pre> | `{}` | no |
 | <a name="input_location"></a> [location](#input\_location) | (Optional) Azure region for naming standardization. | `string` | `"southcentralus"` | no |
-| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | (Optional) Prefix used in the generated resource name. | `string` | `"ser"` | no |
 | <a name="input_suffix"></a> [suffix](#input\_suffix) | (Optional) Two-digit suffix appended to the generated resource name. | `string` | `"01"` | no |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_id"></a> [id](#output\_id) | NSG rule ID. |
-| <a name="output_name"></a> [name](#output\_name) | NSG rule name. |
+No outputs.
 <!-- END_TF_DOCS -->
