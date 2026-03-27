@@ -33,15 +33,15 @@ resource "azurerm_subnet_route_table_association" "this" {
 }
 
 module "network-security-rule" {
-  source = "<PATH_TO_MODULE>"
+  source  = "<PATH_TO_MODULE>"
   version = "x.x.x"
 
-  
+
 }
 
 module "route" {
-  source = "<PATH_TO_MODULE>"
+  source  = "<PATH_TO_MODULE>"
   version = "x.x.x"
 
-  
+
 }

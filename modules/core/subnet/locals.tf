@@ -9,7 +9,7 @@ locals {
   nsg_name       = format("%s-nsg-%s-%s-%s-%s", var.name_prefix, var.topology, var.environment, local.location_short, var.suffix)
   udr_name       = format("%s-udr-%s-%s-%s-%s", var.name_prefix, var.topology, var.environment, local.location_short, var.suffix)
 
-  merged_nsg_rules = concat(var.common_nsg_rules, var.custom_nsg_rules)
+  merged_nsg_rules  = concat(var.common_nsg_rules, var.custom_nsg_rules)
   merged_udr_routes = concat(var.common_udr_routes, var.custom_udr_routes)
 
   merged_nsg_rule_map = {

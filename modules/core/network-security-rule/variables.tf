@@ -23,37 +23,37 @@ variable "suffix" {
 }
 variable "common_nsg_rules" {
   description = "(Required) List of common NSG rules."
-  type        =map(object({
-    priority                    = number
-    direction                   = string
-    access                      = string
-    protocol                    = string
-    source_port_range           = string
-    source_port_ranges          = list(string)
-    destination_port_range      = string
-    destination_port_ranges     = list(string)
-    source_address_prefix       = string
-    source_address_prefixes     = list(string)
-    destination_address_prefix  = string
+  type = map(object({
+    priority                     = number
+    direction                    = string
+    access                       = string
+    protocol                     = string
+    source_port_range            = string
+    source_port_ranges           = list(string)
+    destination_port_range       = string
+    destination_port_ranges      = list(string)
+    source_address_prefix        = string
+    source_address_prefixes      = list(string)
+    destination_address_prefix   = string
     destination_address_prefixes = list(string)
   }))
-  default     = {}
+  default = {}
 }
 variable "custom_nsg_rules" {
   description = "(Optional) List of custom NSG rules."
-  type        =map(object({
-    priority                    = number
-    direction                   = string
-    access                      = string
-    protocol                    = string
-    source_port_range           = string
-    source_port_ranges          = list(string)
-    destination_port_range      = string
-    destination_port_ranges     = list(string)
-    source_address_prefix       = string
-    source_address_prefixes     = list(string)
-    destination_address_prefix  = string
+  type = map(object({
+    priority                     = number
+    direction                    = string
+    access                       = string
+    protocol                     = string
+    source_port_range            = string
+    source_port_ranges           = list(string)
+    destination_port_range       = string
+    destination_port_ranges      = list(string)
+    source_address_prefix        = string
+    source_address_prefixes      = list(string)
+    destination_address_prefix   = string
     destination_address_prefixes = list(string)
   }))
-  default     = {}
+  default = {}
 }

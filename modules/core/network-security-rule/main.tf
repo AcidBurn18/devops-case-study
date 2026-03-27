@@ -1,6 +1,6 @@
 resource "azurerm_network_security_rule" "this" {
-  for_each = local.merged_nsg_rule_map
-  name                        = each.key    
+  for_each                    = local.merged_nsg_rule_map
+  name                        = each.key
   priority                    = each.value.priority
   direction                   = each.value.direction
   access                      = each.value.access

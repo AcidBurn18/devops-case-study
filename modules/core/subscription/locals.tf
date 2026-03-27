@@ -9,6 +9,6 @@ locals {
     )
   )
 
-  effective_subscription_id = var.subscription_id != null ? var.subscription_id : azurerm_subscription.this[0].subscription_id
+  effective_subscription_id          = var.subscription_id != null ? var.subscription_id : azurerm_subscription.this[0].subscription_id
   effective_subscription_resource_id = format("/subscriptions/%s", local.effective_subscription_id)
 }
